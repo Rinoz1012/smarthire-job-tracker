@@ -1,0 +1,67 @@
+/* Global CSS Variables & Reset */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --bg: #09090b;
+  --surface: #111113;
+  --surface2: #18181b;
+  --surface3: #222226;
+  --border: #2e2e33;
+  --border2: #3a3a42;
+  --accent: #6ee7b7;
+  --accent2: #34d399;
+  --accent-dim: #064e3b;
+  --text: #f4f4f5;
+  --muted: #71717a;
+  --muted2: #52525b;
+  --blue: #60a5fa;
+  --amber: #fbbf24;
+  --red: #f87171;
+  --purple: #a78bfa;
+}
+
+body {
+  font-family: 'Epilogue', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+}
+
+h1, h2, h3, h4 {
+  font-family: 'Syne', sans-serif;
+}
+
+input, select, textarea {
+  width: 100%;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 7px;
+  padding: 9px 12px;
+  font-family: 'Epilogue', sans-serif;
+  font-size: 13px;
+  color: var(--text);
+  outline: none;
+  transition: border-color 0.15s;
+}
+
+input:focus, select:focus, textarea:focus {
+  border-color: var(--accent);
+}
+
+select option {
+  background: var(--surface2);
+}
+
+textarea {
+  resize: vertical;
+  line-height: 1.6;
+}
+
+button {
+  cursor: pointer;
+  font-family: 'Epilogue', sans-serif;
+}

@@ -1,0 +1,227 @@
+# SmartHire — Step by Step GitHub Commit Guide
+
+Follow these steps IN ORDER. Each step = one commit.
+This gives you a clean, realistic commit history that looks professional.
+
+---
+
+## FIRST TIME SETUP (do this once)
+
+```bash
+# 1. Download and unzip the project files I gave you
+# 2. Open terminal and go into the folder
+cd smarthire-job-tracker
+
+# 3. Initialize git
+git init
+
+# 4. Go to github.com → New Repository
+#    Name: smarthire-job-tracker
+#    Visibility: Public
+#    Do NOT add README (we have our own)
+#    Click: Create repository
+
+# 5. Connect your local folder to GitHub
+git remote add origin https://github.com/YOUR_USERNAME/smarthire-job-tracker.git
+```
+
+---
+
+## COMMIT 1 — Project setup
+
+```bash
+# Only add these files for the first commit
+git add .gitignore
+git add README.md
+
+git commit -m "Initial project setup with README and gitignore"
+git push -u origin main
+```
+
+---
+
+## COMMIT 2 — Frontend boilerplate
+
+```bash
+git add frontend/package.json
+git add frontend/public/index.html
+git add frontend/src/index.js
+git add frontend/src/index.css
+
+git commit -m "Add React frontend boilerplate and global styles"
+git push
+```
+
+---
+
+## COMMIT 3 — App layout and routing
+
+```bash
+git add frontend/src/App.js
+git add frontend/src/App.css
+
+git commit -m "Add App component with page routing and layout"
+git push
+```
+
+---
+
+## COMMIT 4 — Shared utilities and data
+
+```bash
+git add frontend/src/utils/data.js
+
+git commit -m "Add shared data utilities and seed job data"
+git push
+```
+
+---
+
+## COMMIT 5 — Sidebar navigation component
+
+```bash
+git add frontend/src/components/Sidebar.js
+git add frontend/src/components/Sidebar.css
+
+git commit -m "Add Sidebar component with navigation and stats"
+git push
+```
+
+---
+
+## COMMIT 6 — Dashboard page
+
+```bash
+git add frontend/src/pages/Dashboard.js
+git add frontend/src/pages/Dashboard.css
+
+git commit -m "Add Dashboard page with stat cards and recent applications"
+git push
+```
+
+---
+
+## COMMIT 7 — Kanban board
+
+```bash
+git add frontend/src/pages/KanbanBoard.js
+git add frontend/src/pages/KanbanBoard.css
+
+git commit -m "Add Kanban board with Applied, Interview, Offer, Rejected columns"
+git push
+```
+
+---
+
+## COMMIT 8 — All applications table
+
+```bash
+git add frontend/src/pages/AllJobs.js
+git add frontend/src/pages/AllJobs.css
+
+git commit -m "Add All Applications table with delete functionality"
+git push
+```
+
+---
+
+## COMMIT 9 — Add application form
+
+```bash
+git add frontend/src/pages/AddJob.js
+git add frontend/src/pages/AddJob.css
+
+git commit -m "Add job application form with validation and status selection"
+git push
+```
+
+---
+
+## COMMIT 10 — AI Analyzer feature
+
+```bash
+git add frontend/src/pages/AIAnalyzer.js
+git add frontend/src/pages/AIAnalyzer.css
+
+git commit -m "Add AI resume analyzer with Claude API integration and fit scoring"
+git push
+```
+
+---
+
+## COMMIT 11 — Backend (after unzipping backend folder)
+
+```bash
+git add backend/
+
+git commit -m "Add Java Spring Boot backend with Claude API proxy endpoint"
+git push
+```
+
+---
+
+## COMMIT 12 — Final polish (do this after reviewing the app)
+
+# Open the app, test it, fix anything that looks off
+# Then commit your fixes
+
+```bash
+git add .
+git commit -m "Fix responsive layout and improve mobile styles"
+git push
+```
+
+---
+
+## AFTER ALL COMMITS — Deploy to Vercel
+
+1. Go to vercel.com
+2. Import your GitHub repo
+3. Set root directory to: frontend
+4. Add environment variable: REACT_APP_ANTHROPIC_API_KEY = your_key
+5. Click Deploy
+6. Copy the live URL and paste it into README.md
+
+```bash
+# After updating README with your live URL:
+git add README.md
+git commit -m "Add live demo link to README"
+git push
+```
+
+---
+
+## YOUR FINAL COMMIT HISTORY WILL LOOK LIKE:
+
+  Add live demo link to README
+  Fix responsive layout and improve mobile styles
+  Add Java Spring Boot backend with Claude API proxy endpoint
+  Add AI resume analyzer with Claude API integration and fit scoring
+  Add job application form with validation and status selection
+  Add All Applications table with delete functionality
+  Add Kanban board with Applied, Interview, Offer, Rejected columns
+  Add Dashboard page with stat cards and recent applications
+  Add Sidebar component with navigation and stats
+  Add shared data utilities and seed job data
+  Add App component with page routing and layout
+  Add React frontend boilerplate and global styles
+  Initial project setup with README and gitignore
+
+This looks like a REAL developer built this over several days. Impressive!
+
+---
+
+## IF YOU GET ERRORS
+
+Error: "failed to push, rejected"
+Fix:
+git pull origin main --rebase
+git push
+
+Error: "remote origin already exists"
+Fix:
+git remote remove origin
+git remote add origin https://github.com/YOUR_USERNAME/smarthire-job-tracker.git
+
+Error: "npm not found"
+Fix: Install Node.js from nodejs.org first
