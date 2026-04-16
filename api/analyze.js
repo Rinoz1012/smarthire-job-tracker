@@ -14,7 +14,7 @@ export default async function handler(req, res) {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${process.env.REACT_APP_GROQ_API_KEY}`
+        'Authorization': `Bearer ${process.env.GROQ_API_KEY}`
       },
       body: JSON.stringify({
         model: 'llama3-70b-8192',
@@ -22,7 +22,6 @@ export default async function handler(req, res) {
         messages: [{ role: 'user', content: prompt }],
       }),
     });
-
     const data = await response.json();
     res.status(200).json(data);
   } catch (error) {
