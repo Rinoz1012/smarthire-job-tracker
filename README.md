@@ -80,4 +80,4 @@ smarthire-job-tracker/
 
 ## Author
 
-> Your name here
+Rinoz Fathima
