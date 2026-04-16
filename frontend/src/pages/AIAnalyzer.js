@@ -31,7 +31,11 @@ Respond ONLY with valid JSON (no markdown, no backticks):
 }`;
 
     try {
-      const res = await fetch('/api/groq/openai/v1/chat/completions', {
+      const res = await fetch('/api/analyze', {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify({ prompt }),
+});
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
