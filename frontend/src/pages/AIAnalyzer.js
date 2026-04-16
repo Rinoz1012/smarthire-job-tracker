@@ -2,11 +2,11 @@ import React, { useState } from 'react';
 import './AIAnalyzer.css';
 
 function AIAnalyzer() {
-  const [resume, setResume]   = useState('');
-  const [jd, setJd]           = useState('');
+  const [resume, setResume] = useState('');
+  const [jd, setJd] = useState('');
   const [loading, setLoading] = useState(false);
-  const [result, setResult]   = useState(null);
-  const [error, setError]     = useState('');
+  const [result, setResult] = useState(null);
+  const [error, setError] = useState('');
 
   const analyze = async () => {
     if (!resume || !jd) { alert('Please fill in both fields.'); return; }
@@ -32,20 +32,9 @@ Respond ONLY with valid JSON (no markdown, no backticks):
 
     try {
       const res = await fetch('/api/analyze', {
-  method: 'POST',
-  headers: { 'Content-Type': 'application/json' },
-  body: JSON.stringify({ prompt }),
-});
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${process.env.REACT_APP_GROQ_API_KEY}`
-        },
-        body: JSON.stringify({
-          model: 'llama3-70b-8192',
-          max_tokens: 800,
-          messages: [{ role: 'user', content: prompt }],
-        }),
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ prompt }),
       });
       const data = await res.json();
       const text = data.choices[0].message.content.replace(/```json|```/g, '').trim();
@@ -65,12 +54,11 @@ Respond ONLY with valid JSON (no markdown, no backticks):
         <h1 className="page-title">AI resume analyzer</h1>
         <p className="page-sub">Paste a job description to see how well your profile fits</p>
       </div>
-
       <div className="form-card">
         <div className="field" style={{ marginBottom: 14 }}>
           <label className="field-label">Your profile / resume summary</label>
           <textarea value={resume} onChange={e => setResume(e.target.value)}
-            placeholder="e.g. 1.5 years experience in React, Node.js, Java Spring Boot..."
+            placeholder="e.g. 1.5 years experience in React, Java Spring Boot..."
             rows={4} />
         </div>
         <div className="field" style={{ marginBottom: 18 }}>
@@ -83,9 +71,7 @@ Respond ONLY with valid JSON (no markdown, no backticks):
           {loading ? 'Analyzing...' : 'Analyze fit with AI'}
         </button>
       </div>
-
       {error && <div className="analyzer-error">{error}</div>}
-
       {result && (
         <div className="result-card">
           <div className="score-row">
