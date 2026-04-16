@@ -14,7 +14,7 @@ function AIAnalyzer() {
     setResult(null);
     setError('');
 
-    const prompt = `You are a technical recruiter AI. Analyze the candidate's profile against this job description.
+    const prompt = `You are a technical recruiter AI. Analyze the candidate profile against this job description.
 
 Candidate profile:
 ${resume}
@@ -31,17 +31,20 @@ Respond ONLY with valid JSON (no markdown, no backticks):
 }`;
 
     try {
-      const res = await fetch('https://api.anthropic.com/v1/messages', {
+      const res = await fetch('https://api.groq.com/openai/v1/chat/completions', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${process.env.REACT_APP_GROQ_API_KEY}`
+        },
         body: JSON.stringify({
-          model: 'claude-sonnet-4-20250514',
+          model: 'llama3-70b-8192',
           max_tokens: 800,
           messages: [{ role: 'user', content: prompt }],
         }),
       });
       const data = await res.json();
-      const text = data.content.map(i => i.text || '').join('').replace(/```json|```/g, '').trim();
+      const text = data.choices[0].message.content.replace(/```json|```/g, '').trim();
       setResult(JSON.parse(text));
     } catch (e) {
       setError('Analysis failed. Please try again.');
@@ -63,7 +66,7 @@ Respond ONLY with valid JSON (no markdown, no backticks):
         <div className="field" style={{ marginBottom: 14 }}>
           <label className="field-label">Your profile / resume summary</label>
           <textarea value={resume} onChange={e => setResume(e.target.value)}
-            placeholder="e.g. 1.5 years experience in React, Node.js, Java Spring Boot. Built REST APIs, worked with PostgreSQL..."
+            placeholder="e.g. 1.5 years experience in React, Node.js, Java Spring Boot..."
             rows={4} />
         </div>
         <div className="field" style={{ marginBottom: 18 }}>
@@ -94,17 +97,14 @@ Respond ONLY with valid JSON (no markdown, no backticks):
               </div>
             </div>
           </div>
-
           <div className="skills-section">
             <div className="skills-title">Matching skills</div>
             <div>{(result.matchingSkills || []).map(s => <span key={s} className="skill-tag match">{s}</span>)}</div>
           </div>
-
           <div className="skills-section">
             <div className="skills-title">Skills to improve</div>
             <div>{(result.missingSkills || []).map(s => <span key={s} className="skill-tag missing">{s}</span>)}</div>
           </div>
-
           <div className="skills-section">
             <div className="skills-title">AI recommendation</div>
             <div className="recommendation">{result.recommendation}</div>
