@@ -76,7 +76,7 @@ smarthire-job-tracker/
 - Integrating Claude AI API into a React frontend
 - Building a full-stack app with Java Spring Boot REST backend
 - Managing application state across multiple pages in React
-- Designing a clean dark-mode UI with CSS variables
+- Designing a clean dark-mode UI with CSS  variables
 
 ## Author
 
