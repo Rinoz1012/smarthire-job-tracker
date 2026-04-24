@@ -1,7 +1,7 @@
 export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Credentials', true);
   res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS,PATCH,DELETE,POST,PUT');
+  res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS,POST');
   res.setHeader('Access-Control-Allow-Headers', '*');
 
   if (req.method === 'OPTIONS') {
@@ -9,16 +9,19 @@ export default async function handler(req, res) {
     return;
   }
 
-  if (req.method !== 'POST') {
-    return res.status(405).json({ error: 'Method not allowed' });
-  }
-
   try {
-    const body = typeof req.body === 'string' ? JSON.parse(req.body) : req.body;
-    const prompt = body?.prompt;
+    let body = req.body;
+    
+    if (typeof body === 'string') {
+      body = JSON.parse(body);
+    }
 
-    if (!prompt) {
-      return res.status(400).json({ error: 'Prompt is required' });
+    if (!body || !body.prompt) {
+      return res.status(400).json({ 
+        error: 'Prompt is required',
+        received: typeof body,
+        body: JSON.stringify(body)
+      });
     }
 
     const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
@@ -30,7 +33,7 @@ export default async function handler(req, res) {
       body: JSON.stringify({
         model: 'llama3-70b-8192',
         max_tokens: 800,
-        messages: [{ role: 'user', content: prompt }],
+        messages: [{ role: 'user', content: body.prompt }],
       }),
     });
 
