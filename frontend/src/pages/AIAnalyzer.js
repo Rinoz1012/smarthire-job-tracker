@@ -31,7 +31,7 @@ Respond ONLY with valid JSON (no markdown, no backticks):
 }`;
 
     try {
-      const res = await fetch('https://corsproxy.io/?https://api.groq.com/openai/v1/chat/completions', {
+const res = await fetch('https://api.allorigins.win/raw?url=' + encodeURIComponent('https://api.groq.com/openai/v1/chat/completions'), {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
