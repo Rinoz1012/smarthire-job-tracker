@@ -38,7 +38,7 @@ Respond ONLY with valid JSON (no markdown, no backticks):
           'Authorization': 'Bearer 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'
         },
         body: JSON.stringify({
-          model: 'llama3-70b-8192',
+          model: 'model: 'llama-3.3-70b-versatile',',
           max_tokens: 800,
           messages: [{ role: 'user', content: prompt }],
         }),
