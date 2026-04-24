@@ -9,15 +9,14 @@
       }
     },
     {
-      "src": "api/*.js",
+      "src": "api/analyze.js",
       "use": "@vercel/node"
     }
   ],
   "routes": [
     {
       "src": "/api/analyze",
-      "dest": "/api/analyze.js",
-      "methods": ["GET", "POST", "OPTIONS"]
+      "dest": "/api/analyze.js"
     },
     {
       "src": "/(.*)",
