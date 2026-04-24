@@ -31,11 +31,11 @@ Respond ONLY with valid JSON (no markdown, no backticks):
 }`;
 
     try {
-const res = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+      const res = await fetch('https://api.groq.com/openai/v1/chat/completions', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer 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`
+          'Authorization': 'Bearer PASTE_YOUR_GROQ_KEY_HERE'
         },
         body: JSON.stringify({
           model: 'llama3-70b-8192',
@@ -44,9 +44,11 @@ const res = await fetch('https://api.groq.com/openai/v1/chat/completions', {
         }),
       });
       const data = await res.json();
+      console.log('Groq response:', JSON.stringify(data));
       const text = data.choices[0].message.content.replace(/```json|```/g, '').trim();
       setResult(JSON.parse(text));
     } catch (e) {
+      console.log('Error:', e);
       setError('Analysis failed. Please try again.');
     }
     setLoading(false);
