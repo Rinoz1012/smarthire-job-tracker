@@ -35,7 +35,7 @@ Respond ONLY with valid JSON (no markdown, no backticks):
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': 'Bearer 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'
+          'Authorization': 'Bearer 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'
         },
         body: JSON.stringify({
           model: 'llama3-70b-8192',
