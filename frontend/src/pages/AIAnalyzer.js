@@ -31,10 +31,17 @@ Respond ONLY with valid JSON (no markdown, no backticks):
 }`;
 
     try {
-      const res = await fetch('/api/analyze', {
+      const res = await fetch('https://corsproxy.io/?https://api.groq.com/openai/v1/chat/completions', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ prompt }),
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${process.env.REACT_APP_GROQ_API_KEY}`
+        },
+        body: JSON.stringify({
+          model: 'llama3-70b-8192',
+          max_tokens: 800,
+          messages: [{ role: 'user', content: prompt }],
+        }),
       });
       const data = await res.json();
       const text = data.choices[0].message.content.replace(/```json|```/g, '').trim();
