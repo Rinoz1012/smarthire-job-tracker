@@ -78,6 +78,8 @@ smarthire-job-tracker/
 - Managing application state across multiple pages in React
 - Designing a clean dark-mode UI with CSS  variables
 
+ Last updated: 25 April 2026
+
 ## Author
 
 Rinoz Fathima
