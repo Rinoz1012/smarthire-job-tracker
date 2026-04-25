@@ -69,7 +69,7 @@ Respond ONLY with valid JSON (no markdown, no backticks):
             rows={4} />
         </div>
         <div className="field" style={{ marginBottom: 18 }}>
-          <label className="field-label">Job description to analyze</style>
+          <label className="field-label">Job description to analyze</label>
           <textarea value={jd} onChange={e => setJd(e.target.value)}
             placeholder="Paste the full job description here..."
             rows={5} />
