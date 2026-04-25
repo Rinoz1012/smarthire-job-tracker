@@ -31,17 +31,10 @@ Respond ONLY with valid JSON (no markdown, no backticks):
 }`;
 
     try {
-      const res = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+      const res = await fetch('https://smarthire-job-tracker.onrender.com/analyze', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer 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'
-        },
-        body: JSON.stringify({
-          model: 'gemma2-9b-it',
-          max_tokens: 800,
-          messages: [{ role: 'user', content: prompt }],
-        }),
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ prompt }),
       });
       const data = await res.json();
       const text = data.choices[0].message.content.replace(/```json|```/g, '').trim();
