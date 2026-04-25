@@ -1,4 +1,5 @@
 import React from 'react';
+import { logout } from '../firebase';
 import { getStats } from '../utils/data';
 import './Sidebar.css';
 
@@ -10,8 +11,13 @@ const NAV_ITEMS = [
   { id: 'analyzer',  label: 'AI analyzer' },
 ];
 
-function Sidebar({ currentPage, setCurrentPage, jobs }) {
+function Sidebar({ currentPage, setCurrentPage, jobs, user }) {
   const stats = getStats(jobs);
+
+  const handleLogout = async () => {
+    await logout();
+  };
+
   return (
     <aside className="sidebar">
       <div className="sidebar-brand">
@@ -29,13 +35,23 @@ function Sidebar({ currentPage, setCurrentPage, jobs }) {
           </div>
         ))}
       </nav>
-      <div className="sidebar-footer">
+      <div style={{ padding: '0 12px', marginTop: 'auto' }}>
         <div className="sidebar-stats">
           <div className="stats-title">Overview</div>
           <div className="stat-row"><span>Applied</span><span>{stats.applied}</span></div>
           <div className="stat-row"><span>Interviews</span><span style={{color:'var(--amber)'}}>{stats.interview}</span></div>
           <div className="stat-row"><span>Offers</span><span style={{color:'var(--accent)'}}>{stats.offer}</span></div>
         </div>
+        <div className="user-card">
+          <img src={user?.photoURL} alt="avatar" className="user-avatar" />
+          <div className="user-info">
+            <div className="user-name">{user?.displayName}</div>
+            <div className="user-email">{user?.email}</div>
+          </div>
+        </div>
+        <button className="logout-btn" onClick={handleLogout}>
+          Sign out
+        </button>
       </div>
     </aside>
   );
