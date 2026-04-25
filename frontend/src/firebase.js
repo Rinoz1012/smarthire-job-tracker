@@ -3,12 +3,12 @@ import { getAuth, GoogleAuthProvider, signInWithPopup, signOut } from 'firebase/
 import { getFirestore } from 'firebase/firestore';
 
 const firebaseConfig = {
-  apiKey: "YOUR_API_KEY",
-  authDomain: "YOUR_AUTH_DOMAIN",
-  projectId: "YOUR_PROJECT_ID",
-  storageBucket: "YOUR_STORAGE_BUCKET",
-  messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
-  appId: "YOUR_APP_ID"
+  apiKey: "AIzaSyDWy4g32A51a3srrZ13cgTfwJlBocVKcl8",
+  authDomain: "smarthire-77d77.firebaseapp.com",
+  projectId: "smarthire-77d77",
+  storageBucket: "smarthire-77d77.firebasestorage.app",
+  messagingSenderId: "1031680499153",
+  appId: "1:1031680499153:web:cbcc7e275bdfebae56d4f0"
 };
 
 const app = initializeApp(firebaseConfig);
