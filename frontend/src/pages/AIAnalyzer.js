@@ -1,15 +1,76 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { getUserCredits, deductCredit, addCredits } from '../utils/credits';
 import './AIAnalyzer.css';
 
-function AIAnalyzer() {
+function AIAnalyzer({ user }) {
   const [resume, setResume] = useState('');
   const [jd, setJd] = useState('');
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState(null);
   const [error, setError] = useState('');
+  const [credits, setCredits] = useState(null);
+  const [paying, setPaying] = useState(false);
+
+  useEffect(() => {
+    if (user) {
+      loadCredits();
+    }
+  }, [user]);
+
+  const loadCredits = async () => {
+    const c = await getUserCredits(user.uid);
+    setCredits(c);
+  };
+
+  const handlePayment = async (creditAmount, price) => {
+    setPaying(true);
+    try {
+      const orderRes = await fetch('https://smarthire-job-tracker.onrender.com/create-order', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ amount: price }),
+      });
+      const order = await orderRes.json();
+
+      const options = {
+        key: process.env.REACT_APP_RAZORPAY_KEY_ID,
+        amount: order.amount,
+        currency: 'INR',
+        name: 'SmartHire',
+        description: `${creditAmount} AI Analysis Credits`,
+        order_id: order.id,
+        handler: async (response) => {
+          const verifyRes = await fetch('https://smarthire-job-tracker.onrender.com/verify-payment', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(response),
+          });
+          const verify = await verifyRes.json();
+          if (verify.success) {
+            const newCredits = await addCredits(user.uid, creditAmount);
+            setCredits(newCredits);
+            alert(`Payment successful! ${creditAmount} credits added!`);
+          }
+        },
+        prefill: {
+          name: user.displayName,
+          email: user.email,
+        },
+        theme: { color: '#34d399' },
+      };
+
+      const rzp = new window.Razorpay(options);
+      rzp.open();
+    } catch (error) {
+      alert('Payment failed. Please try again.');
+    }
+    setPaying(false);
+  };
 
   const analyze = async () => {
     if (!resume || !jd) { alert('Please fill in both fields.'); return; }
+    if (credits <= 0) { alert('No credits! Please buy credits to continue.'); return; }
+
     setLoading(true);
     setResult(null);
     setError('');
@@ -39,6 +100,8 @@ Respond ONLY with valid JSON (no markdown, no backticks):
       const data = await res.json();
       const text = data.choices[0].message.content.replace(/```json|```/g, '').trim();
       setResult(JSON.parse(text));
+      const newCredits = await deductCredit(user.uid);
+      setCredits(newCredits);
     } catch (e) {
       setError('Analysis failed. Please try again.');
     }
@@ -54,6 +117,31 @@ Respond ONLY with valid JSON (no markdown, no backticks):
         <h1 className="page-title">AI resume analyzer</h1>
         <p className="page-sub">Paste a job description to see how well your profile fits</p>
       </div>
+
+      <div className="credits-bar">
+        <div className="credits-info">
+          <span className="credits-label">Your credits</span>
+          <span className="credits-count">{credits !== null ? credits : '...'}</span>
+        </div>
+        <div className="credits-packages">
+          <button className="pkg-btn" onClick={() => handlePayment(1, 29)} disabled={paying}>
+            1 credit — ₹29
+          </button>
+          <button className="pkg-btn pkg-popular" onClick={() => handlePayment(5, 99)} disabled={paying}>
+            5 credits — ₹99 ⭐
+          </button>
+          <button className="pkg-btn" onClick={() => handlePayment(10, 179)} disabled={paying}>
+            10 credits — ₹179
+          </button>
+        </div>
+      </div>
+
+      {credits === 0 && (
+        <div className="no-credits-banner">
+          You have no credits left! Buy credits above to continue analyzing. 🎯
+        </div>
+      )}
+
       <div className="form-card">
         <div className="field" style={{ marginBottom: 14 }}>
           <label className="field-label">Your profile / resume summary</label>
@@ -67,11 +155,13 @@ Respond ONLY with valid JSON (no markdown, no backticks):
             placeholder="Paste the full job description here..."
             rows={5} />
         </div>
-        <button className="btn-primary" onClick={analyze} disabled={loading}>
-          {loading ? 'Analyzing...' : 'Analyze fit with AI'}
+        <button className="btn-primary" onClick={analyze} disabled={loading || credits === 0}>
+          {loading ? 'Analyzing...' : `Analyze fit with AI (${credits} credits left)`}
         </button>
       </div>
+
       {error && <div className="analyzer-error">{error}</div>}
+
       {result && (
         <div className="result-card">
           <div className="score-row">
