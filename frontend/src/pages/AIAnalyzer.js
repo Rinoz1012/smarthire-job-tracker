@@ -38,17 +38,15 @@ Respond ONLY with valid JSON (no markdown, no backticks):
           'Authorization': 'Bearer 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'
         },
         body: JSON.stringify({
-          model: 'model: 'llama-3.3-70b-versatile',',
+          model: 'gemma2-9b-it',
           max_tokens: 800,
           messages: [{ role: 'user', content: prompt }],
         }),
       });
       const data = await res.json();
-      console.log('Groq response:', JSON.stringify(data));
       const text = data.choices[0].message.content.replace(/```json|```/g, '').trim();
       setResult(JSON.parse(text));
     } catch (e) {
-      console.log('Error:', e);
       setError('Analysis failed. Please try again.');
     }
     setLoading(false);
@@ -71,7 +69,7 @@ Respond ONLY with valid JSON (no markdown, no backticks):
             rows={4} />
         </div>
         <div className="field" style={{ marginBottom: 18 }}>
-          <label className="field-label">Job description to analyze</label>
+          <label className="field-label">Job description to analyze</style>
           <textarea value={jd} onChange={e => setJd(e.target.value)}
             placeholder="Paste the full job description here..."
             rows={5} />
