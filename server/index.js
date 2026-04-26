@@ -43,7 +43,7 @@ app.post('/analyze', async (req, res) => {
         'Authorization': `Bearer ${process.env.GROQ_API_KEY}`
       },
       body: JSON.stringify({
-        model: 'gemma2-9b-it',
+        model: 'llama-3.1-8b-instant',
         max_tokens: 800,
         messages: [{ role: 'user', content: prompt }]
       })
