@@ -11,7 +11,7 @@ const NAV_ITEMS = [
   { id: 'analyzer',  label: 'AI analyzer' },
 ];
 
-function Sidebar({ currentPage, setCurrentPage, jobs, user }) {
+function Sidebar({ currentPage, setCurrentPage, jobs, user, isAdmin }) {
   const stats = getStats(jobs);
 
   const handleLogout = async () => {
@@ -34,6 +34,15 @@ function Sidebar({ currentPage, setCurrentPage, jobs, user }) {
             {item.label}
           </div>
         ))}
+        {isAdmin && (
+          <div
+            className={`nav-item ${currentPage === 'admin' ? 'active' : ''}`}
+            onClick={() => setCurrentPage('admin')}
+            style={{ color: 'var(--amber)', marginTop: '8px' }}
+          >
+            ⚡ Admin
+          </div>
+        )}
       </nav>
       <div style={{ padding: '0 12px', marginTop: 'auto' }}>
         <div className="sidebar-stats">
