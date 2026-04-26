@@ -92,19 +92,22 @@ Respond ONLY with valid JSON (no markdown, no backticks):
 }`;
 
     try {
+      console.log('Starting analysis...');
       const res = await fetch('https://smarthire-job-tracker.onrender.com/analyze', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ prompt }),
       });
+      console.log('Response status:', res.status);
       const data = await res.json();
+      console.log('Response data:', JSON.stringify(data));
       const text = data.choices[0].message.content.replace(/```json|```/g, '').trim();
       setResult(JSON.parse(text));
       const newCredits = await deductCredit(user.uid);
       setCredits(newCredits);
     } catch (e) {
-      console.log('Analysis error:', e);
-      setError('Analysis failed. Please try again.');
+      console.error('Analysis error:', e.message);
+      setError('Analysis failed: ' + e.message);
     }
     setLoading(false);
   };
