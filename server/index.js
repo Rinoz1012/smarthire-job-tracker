@@ -5,7 +5,23 @@ const Razorpay = require('razorpay');
 const crypto = require('crypto');
 
 const app = express();
-app.use(cors());
+
+app.use(cors({
+  origin: '*',
+  methods: ['GET', 'POST', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+}));
+
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+  res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+  if (req.method === 'OPTIONS') {
+    return res.status(200).end();
+  }
+  next();
+});
+
 app.use(express.json());
 
 const razorpay = new Razorpay({
@@ -13,7 +29,10 @@ const razorpay = new Razorpay({
   key_secret: process.env.RAZORPAY_KEY_SECRET,
 });
 
-// AI Analyze endpoint
+app.get('/', (req, res) => {
+  res.json({ status: 'SmartHire server is running!' });
+});
+
 app.post('/analyze', async (req, res) => {
   const { prompt } = req.body;
   try {
@@ -36,12 +55,11 @@ app.post('/analyze', async (req, res) => {
   }
 });
 
-// Create Razorpay order
 app.post('/create-order', async (req, res) => {
   const { amount } = req.body;
   try {
     const order = await razorpay.orders.create({
-      amount: amount * 100, // convert to paise
+      amount: amount * 100,
       currency: 'INR',
       receipt: 'receipt_' + Date.now(),
     });
@@ -51,7 +69,6 @@ app.post('/create-order', async (req, res) => {
   }
 });
 
-// Verify payment
 app.post('/verify-payment', async (req, res) => {
   const { razorpay_order_id, razorpay_payment_id, razorpay_signature } = req.body;
   try {
@@ -60,7 +77,6 @@ app.post('/verify-payment', async (req, res) => {
       .createHmac('sha256', process.env.RAZORPAY_KEY_SECRET)
       .update(sign)
       .digest('hex');
-
     if (razorpay_signature === expectedSign) {
       res.json({ success: true, message: 'Payment verified!' });
     } else {
@@ -71,4 +87,5 @@ app.post('/verify-payment', async (req, res) => {
   }
 });
 
-app.listen(3001, () => console.log('Server running!'));
+const PORT = process.env.PORT || 3001;
+app.listen(PORT, () => console.log(`Server running on port ${PORT}!`));
