@@ -8,8 +8,11 @@ import KanbanBoard from './pages/KanbanBoard';
 import AllJobs from './pages/AllJobs';
 import AddJob from './pages/AddJob';
 import AIAnalyzer from './pages/AIAnalyzer';
+import AdminDashboard from './pages/AdminDashboard';
 import { initialJobs } from './utils/data';
 import './App.css';
+
+const ADMIN_EMAIL = 'fathimarinoz10@gmail.com';
 
 function App() {
   const [currentPage, setCurrentPage] = useState('dashboard');
@@ -38,7 +41,8 @@ function App() {
     kanban: KanbanBoard,
     alljobs: AllJobs,
     add: AddJob,
-    analyzer: AIAnalyzer
+    analyzer: AIAnalyzer,
+    admin: AdminDashboard,
   };
 
   const PageComponent = pages[currentPage] || Dashboard;
@@ -71,6 +75,7 @@ function App() {
         setCurrentPage={setCurrentPage}
         jobs={jobs}
         user={user}
+        isAdmin={user?.email === ADMIN_EMAIL}
       />
       <main className="app-main">
         <PageComponent
