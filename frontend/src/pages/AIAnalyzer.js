@@ -69,7 +69,7 @@ function AIAnalyzer({ user }) {
 
   const analyze = async () => {
     if (!resume || !jd) { alert('Please fill in both fields.'); return; }
-    if (credits <= 0) { alert('No credits! Please buy credits to continue.'); return; }
+    if (credits !== null && credits <= 0) { alert('No credits! Please buy credits to continue.'); return; }
 
     setLoading(true);
     setResult(null);
@@ -103,6 +103,7 @@ Respond ONLY with valid JSON (no markdown, no backticks):
       const newCredits = await deductCredit(user.uid);
       setCredits(newCredits);
     } catch (e) {
+      console.log('Analysis error:', e);
       setError('Analysis failed. Please try again.');
     }
     setLoading(false);
@@ -156,7 +157,7 @@ Respond ONLY with valid JSON (no markdown, no backticks):
             rows={5} />
         </div>
         <button className="btn-primary" onClick={analyze} disabled={loading || credits === 0}>
-          {loading ? 'Analyzing...' : `Analyze fit with AI (${credits} credits left)`}
+          {loading ? 'Analyzing...' : `Analyze fit with AI (${credits !== null ? credits : '...'} credits left)`}
         </button>
       </div>
 
