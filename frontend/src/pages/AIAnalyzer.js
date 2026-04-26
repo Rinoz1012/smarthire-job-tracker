@@ -18,7 +18,7 @@ function AIAnalyzer({ user }) {
   }, [user]);
 
   const loadCredits = async () => {
-    const c = await getUserCredits(user.uid);
+    const c = await getUserCredits(user.uid, user.email);
     setCredits(c);
   };
 
@@ -92,21 +92,22 @@ Respond ONLY with valid JSON (no markdown, no backticks):
 }`;
 
     try {
-      console.log('Starting analysis...');
       const res = await fetch('https://smarthire-job-tracker.onrender.com/analyze', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ prompt }),
       });
-      console.log('Response status:', res.status);
       const data = await res.json();
-      console.log('Response data:', JSON.stringify(data));
+      if (!data.choices || !data.choices[0]) {
+        setError('AI error: ' + (data.error?.message || JSON.stringify(data)));
+        setLoading(false);
+        return;
+      }
       const text = data.choices[0].message.content.replace(/```json|```/g, '').trim();
       setResult(JSON.parse(text));
-      const newCredits = await deductCredit(user.uid);
+      const newCredits = await deductCredit(user.uid, user.email);
       setCredits(newCredits);
     } catch (e) {
-      console.error('Analysis error:', e.message);
       setError('Analysis failed: ' + e.message);
     }
     setLoading(false);
