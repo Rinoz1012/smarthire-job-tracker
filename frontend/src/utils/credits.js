@@ -1,22 +1,22 @@
 import { doc, getDoc, setDoc, updateDoc } from 'firebase/firestore';
 import { db } from '../firebase';
 
-// Get user credits from Firestore
-export const getUserCredits = async (userId) => {
+const ADMIN_EMAIL = 'fathimarinoz10@gmail.com';
+
+export const getUserCredits = async (userId, userEmail) => {
+  if (userEmail === ADMIN_EMAIL) return 9999;
   try {
     const userRef = doc(db, 'users', userId);
     const userDoc = await getDoc(userRef);
-    
     if (userDoc.exists()) {
       return userDoc.data().credits;
     } else {
-      // New user - give 2 free credits
       await setDoc(userRef, {
-        credits: 2,
+        credits: 5,
         totalAnalyses: 0,
         createdAt: new Date().toISOString()
       });
-      return 2;
+      return 5;
     }
   } catch (error) {
     console.error('Error getting credits:', error);
@@ -24,16 +24,14 @@ export const getUserCredits = async (userId) => {
   }
 };
 
-// Deduct one credit after analysis
-export const deductCredit = async (userId) => {
+export const deductCredit = async (userId, userEmail) => {
+  if (userEmail === ADMIN_EMAIL) return 9999;
   try {
     const userRef = doc(db, 'users', userId);
     const userDoc = await getDoc(userRef);
-    
     if (userDoc.exists()) {
       const currentCredits = userDoc.data().credits;
       const totalAnalyses = userDoc.data().totalAnalyses || 0;
-      
       await updateDoc(userRef, {
         credits: currentCredits - 1,
         totalAnalyses: totalAnalyses + 1
@@ -45,12 +43,10 @@ export const deductCredit = async (userId) => {
   }
 };
 
-// Add credits after payment
 export const addCredits = async (userId, amount) => {
   try {
     const userRef = doc(db, 'users', userId);
     const userDoc = await getDoc(userRef);
-    
     if (userDoc.exists()) {
       const currentCredits = userDoc.data().credits;
       await updateDoc(userRef, {
