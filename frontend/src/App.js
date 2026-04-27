@@ -14,6 +14,14 @@ import './App.css';
 
 const ADMIN_EMAIL = 'fathimarinoz10@gmail.com';
 
+const BOTTOM_NAV = [
+  { id: 'dashboard', label: 'Home', icon: '🏠' },
+  { id: 'kanban', label: 'Board', icon: '📋' },
+  { id: 'add', label: 'Add', icon: '➕' },
+  { id: 'analyzer', label: 'AI', icon: '🤖' },
+  { id: 'alljobs', label: 'Jobs', icon: '📝' },
+];
+
 function App() {
   const [currentPage, setCurrentPage] = useState('dashboard');
   const [jobs, setJobs] = useState(initialJobs);
@@ -86,6 +94,18 @@ function App() {
           user={user}
         />
       </main>
+      <nav className="bottom-nav">
+        {BOTTOM_NAV.map(item => (
+          <div
+            key={item.id}
+            className={`bottom-nav-item ${currentPage === item.id ? 'active' : ''}`}
+            onClick={() => setCurrentPage(item.id)}
+          >
+            <span className="bottom-nav-icon">{item.icon}</span>
+            <span>{item.label}</span>
+          </div>
+        ))}
+      </nav>
     </div>
   );
 }
