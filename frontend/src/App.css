@@ -84,19 +84,3 @@
 .score-high { background: rgba(110,231,183,0.15); color: var(--accent); }
 .score-mid  { background: rgba(251,191,36,0.15);  color: var(--amber); }
 .score-low  { background: rgba(248,113,113,0.15); color: var(--red); }
-
-/* MOBILE RESPONSIVE */
-@media (max-width: 768px) {
-  .app-layout {
-    grid-template-columns: 1fr;
-    grid-template-rows: auto 1fr;
-  }
-
-  .app-main {
-    padding: 16px;
-  }
-
-  .page-title {
-    font-size: 20px;
-  }
-}
