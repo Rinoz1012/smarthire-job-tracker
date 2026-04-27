@@ -67,8 +67,3 @@ function Sidebar({ currentPage, setCurrentPage, jobs, user, isAdmin }) {
 }
 
 export default Sidebar;
-@media (max-width: 768px) {
-  .sidebar {
-    display: none;
-  }
-}
