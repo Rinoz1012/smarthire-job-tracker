@@ -37,6 +37,7 @@
   font-weight: 600;
   transition: all 0.15s;
   letter-spacing: 0.2px;
+  cursor: pointer;
 }
 
 .btn-primary:hover {
@@ -58,6 +59,7 @@
   border-radius: 7px;
   font-size: 13px;
   transition: all 0.15s;
+  cursor: pointer;
 }
 
 .btn-ghost:hover {
@@ -83,6 +85,18 @@
 .score-mid  { background: rgba(251,191,36,0.15);  color: var(--amber); }
 .score-low  { background: rgba(248,113,113,0.15); color: var(--red); }
 
+/* MOBILE RESPONSIVE */
 @media (max-width: 768px) {
-  .app-layout { grid-template-columns: 1fr; }
+  .app-layout {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto 1fr;
+  }
+
+  .app-main {
+    padding: 16px;
+  }
+
+  .page-title {
+    font-size: 20px;
+  }
 }
