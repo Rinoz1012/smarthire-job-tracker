@@ -1,140 +1,37 @@
-.sidebar {
-  background: var(--surface);
-  border-right: 1px solid var(--border);
-  padding: 24px 0;
-  display: flex;
-  flex-direction: column;
-  height: 100vh;
-  position: sticky;
-  top: 0;
-}
+@media (max-width: 768px) {
+  .sidebar {
+    height: auto;
+    position: relative;
+    border-right: none;
+    border-bottom: 1px solid var(--border);
+  }
 
-.sidebar-brand {
-  padding: 0 20px 24px;
-  border-bottom: 1px solid var(--border);
-}
+  .sidebar-nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    padding: 8px 12px;
+  }
 
-.brand-name {
-  font-family: 'Syne', sans-serif;
-  font-size: 18px;
-  font-weight: 700;
-  color: var(--accent);
-  letter-spacing: -0.3px;
-}
+  .nav-item {
+    padding: 6px 10px;
+    font-size: 12px;
+    margin-bottom: 0;
+  }
 
-.brand-sub {
-  font-size: 11px;
-  color: var(--muted);
-  margin-top: 2px;
-  font-weight: 300;
-}
+  .sidebar-footer {
+    display: none;
+  }
 
-.sidebar-nav {
-  padding: 16px 12px;
-  flex: 1;
-}
+  .sidebar-stats {
+    display: none;
+  }
 
-.nav-item {
-  padding: 9px 12px;
-  border-radius: 8px;
-  cursor: pointer;
-  font-size: 13px;
-  font-weight: 400;
-  color: var(--muted);
-  transition: all 0.15s;
-  margin-bottom: 2px;
-}
+  .user-card {
+    display: none;
+  }
 
-.nav-item:hover { background: var(--surface2); color: var(--text); }
-.nav-item.active { background: var(--accent-dim); color: var(--accent); font-weight: 500; }
-
-.sidebar-stats {
-  background: var(--surface2);
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  padding: 14px;
-  margin-bottom: 12px;
-}
-
-.stats-title {
-  font-size: 11px;
-  font-weight: 600;
-  color: var(--muted);
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  margin-bottom: 10px;
-}
-
-.stat-row {
-  display: flex;
-  justify-content: space-between;
-  font-size: 12px;
-  padding: 4px 0;
-  color: var(--muted);
-}
-
-.stat-row span:last-child {
-  font-weight: 500;
-  font-family: 'Syne', sans-serif;
-  color: var(--text);
-}
-
-.user-card {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  background: var(--surface2);
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  padding: 10px 12px;
-  margin-bottom: 10px;
-}
-
-.user-avatar {
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  flex-shrink: 0;
-}
-
-.user-info {
-  flex: 1;
-  overflow: hidden;
-}
-
-.user-name {
-  font-size: 12px;
-  font-weight: 500;
-  color: var(--text);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.user-email {
-  font-size: 11px;
-  color: var(--muted);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.logout-btn {
-  width: 100%;
-  background: transparent;
-  color: var(--muted);
-  border: 1px solid var(--border);
-  padding: 8px;
-  border-radius: 7px;
-  font-family: 'Epilogue', sans-serif;
-  font-size: 12px;
-  cursor: pointer;
-  transition: all 0.15s;
-  margin-bottom: 12px;
-}
-
-.logout-btn:hover {
-  color: var(--red);
-  border-color: var(--red);
-  background: rgba(248, 113, 113, 0.1);
+  .logout-btn {
+    display: none;
+  }
 }
